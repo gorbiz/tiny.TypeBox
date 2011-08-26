@@ -2,6 +2,12 @@ tiny.TypeBox
 - Find the right font for any website. _Now even easier!_
 
 This is a bookmarklet.
+
+It can also be included statically on a page by putting this in the header:
+<script src="http://tiny.typebox.info/tiny.typebox.min.js" type="text/javascript"></script>
+and this in the body:
+<div id="tinytypebox"></div>
+
 More info on http://tiny.typebox.info (perhaps).
 
 by Karl Svartholm & Passion is Mandatory 2011-08-26
