@@ -8,6 +8,8 @@
  * by Karl Svartholm & Passion is Mandatory 2011-08-26 
  */
 
+// TODO Make it possible to pass the parameter autostart is possible
+
 function tinytypebox_next_family() {
     var header_family = tinytypebox_families[tinytypebox_family_index];
     var body_family = tinytypebox_families[tinytypebox_family_index+1];
@@ -38,13 +40,21 @@ function tinytypebox_next_family() {
     }
 }
 
-function tinytypebox_inject_self() {
+function tinytypebox_inject_self(attach_to) {
 	document.body.appendChild(document.createElement('script')).src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js';
 	if (typeof jQuery == 'undefined') {
-		setTimeout(tinytypebox_inject_self, 500);
+		setTimeout(function () { tinytypebox_inject_self(attach_to); }, 500);
 		return;
 	}
-    $('body').append($('<a id=\'tinytypebox-next\' style=\'position: fixed; bottom: 0; right: 0; padding: 0 0.5em; border: 2px solid #ddd; background: #eee;\' href=\'javascript:tinytypebox_next_family();\'>Next font</a>'));
+	
+	var code = $('<a id=\'tinytypebox-next\' style=\'position: fixed; bottom: 0; right: 0; padding: 0 0.5em; border: 2px solid #ddd; background: #eee;\' href=\'javascript:tinytypebox_next_family();\'>Next font</a>');
+	if (typeof attach_to != 'undefined' && attach_to) {
+		if ($('#'+attach_to).length) {
+			$('#'+attach_to).append(code);
+		}
+	} else {
+    	$('body').append(code);
+    }
 }
 
 if (tinytypebox_loaded == undefined) {
@@ -64,10 +74,19 @@ if (tinytypebox_loaded == undefined) {
 	];
 
 	if (typeof document.body != 'undefined' && document.body) {
+		console.log('bookmarklet mode');
+		/* Assume bookmarklet mode */
 		tinytypebox_inject_self();
 	} else {
+		console.log('inline mode');
+		/* Assume inclusion from html */
+		var tinytypebox_old_onload = function() {};
+		if (typeof window.onload == 'function') {
+			tinytypebox_old_onload = window.onload;
+		}
 		window.onload = function() {
-			tinytypebox_inject_self();
+			tinytypebox_old_onload();
+			tinytypebox_inject_self('tinytypebox');
 		}
 	}
 }
