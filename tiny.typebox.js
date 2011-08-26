@@ -63,7 +63,7 @@ if (tinytypebox_loaded == undefined) {
 	    'Corben:bold', 'Nobile'
 	];
 
-	if (typeof document.body != 'undefined') {
+	if (typeof document.body != 'undefined' && document.body) {
 		tinytypebox_inject_self();
 	} else {
 		window.onload = function() {
