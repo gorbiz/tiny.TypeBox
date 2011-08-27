@@ -74,11 +74,9 @@ if (tinytypebox_loaded == undefined) {
 	];
 
 	if (typeof document.body != 'undefined' && document.body) {
-		console.log('bookmarklet mode');
 		/* Assume bookmarklet mode */
 		tinytypebox_inject_self();
 	} else {
-		console.log('inline mode');
 		/* Assume inclusion from html */
 		var tinytypebox_old_onload = function() {};
 		if (typeof window.onload == 'function') {
