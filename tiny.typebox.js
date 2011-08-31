@@ -41,13 +41,22 @@ function tinytypebox_next_family() {
 }
 
 function tinytypebox_inject_self(attach_to) {
+	tinytypebox_load_jquery();
+	tinytypebox_load_self(attach_to, 0);
+}
+
+function tinytypebox_load_jquery() {
 	document.body.appendChild(document.createElement('script')).src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js';
-	if (typeof jQuery == 'undefined') {
-		setTimeout(function () { tinytypebox_inject_self(attach_to); }, 500);
+}
+
+function tinytypebox_load_self(attach_to, time_elapsed) {
+	if (typeof $ == 'undefined') {
+		if (time_elapsed >= 5000) { alert('Sorry, failed to load jQuery. Complain to karl@passionismandatory.com if you want.'); return false; };
+		setTimeout(function () { tinytypebox_load_self(attach_to, time_elapsed + 500); }, 500);
 		return;
 	}
-	
-	var code = $('<a id=\'tinytypebox-next\' style=\'position: fixed; bottom: 0; right: 0; padding: 0 0.5em; border: 2px solid #ddd; background: #eee;\' href=\'javascript:tinytypebox_next_family();\'>Next font</a>');
+
+	var code = $('<a id=\'tinytypebox-next\' style=\'position: fixed; bottom: 0; right: 0; z-index:10001; padding: 0 0.5em; border: 2px solid #ddd; background: #eee;\' href=\'javascript:tinytypebox_next_family();\'>Next font</a>');
 	if (typeof attach_to != 'undefined' && attach_to) {
 		if ($('#'+attach_to).length) {
 			$('#'+attach_to).append(code);
